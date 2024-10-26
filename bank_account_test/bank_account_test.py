@@ -1,6 +1,6 @@
 import pytest
+from unittest.mock import Mock
 from bank_account import BankAccount, InsufficientBalanceException
-from bank_account import FakeEmailSender
 
 def test_deposit_increases_balance():
     # Arrange (Given)
@@ -24,7 +24,7 @@ def test_withdraw_decreases_balance():
 
 def test_overdrawing_not_allowed():
     # Arrange (Given)
-    fake_email_sender = FakeEmailSender()
+    fake_email_sender = Mock()
     bank_account = BankAccount(1000, fake_email_sender)
 
     # Act (When) & Assert (Then)
@@ -48,7 +48,7 @@ def test_transfer_value_to_other_account():
 
 def test_transfer_amount_higher_than_balance():
     # Arrange (Given)
-    fake_email_sender = FakeEmailSender()
+    fake_email_sender = Mock()
     bank_account_sender = BankAccount(1000, fake_email_sender)
     bank_account_receiver = BankAccount(0, fake_email_sender)
 
@@ -63,7 +63,7 @@ def test_transfer_amount_higher_than_balance():
 def test_transfer_fee_is_charged():
     # Arrange (Given)
     transfer_fee = 10
-    fake_email_sender = FakeEmailSender()
+    fake_email_sender = Mock()
     bank_account_sender = BankAccount(1000, fake_email_sender, transfer_fee)
     bank_account_receiver = BankAccount(0, fake_email_sender, transfer_fee)
 

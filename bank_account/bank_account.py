@@ -13,7 +13,7 @@ class BankAccount:
     def withdraw(self, amount):
         if amount > self.balance:
             self.email_sender.send_email_to_bank()
-            raise InsufficientBalanceException("Insufficient balance to withdraw")
+            raise InsufficientBalanceException()
         self.balance -= amount
 
     def transfer(self, amount, receiver_account):

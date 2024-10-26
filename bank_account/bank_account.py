@@ -1,6 +1,7 @@
 class BankAccount:
-    def __init__(self, initial_balance, transfer_fee=0):
+    def __init__(self, initial_balance, email_sender=None, transfer_fee=0):
         self.balance = initial_balance
+        self.email_sender = email_sender
         self.transfer_fee = transfer_fee
 
     def get_balance(self):
@@ -11,6 +12,7 @@ class BankAccount:
 
     def withdraw(self, amount):
         if amount > self.balance:
+            self.email_sender.send_email_to_bank()
             raise InsufficientBalanceException("Insufficient balance to withdraw")
         self.balance -= amount
 

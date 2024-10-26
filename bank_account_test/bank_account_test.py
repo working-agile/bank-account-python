@@ -1,5 +1,6 @@
 import pytest
 from bank_account import BankAccount, InsufficientBalanceException
+from bank_account import FakeEmailSender
 
 def test_deposit_increases_balance():
     # Arrange (Given)
@@ -23,7 +24,8 @@ def test_withdraw_decreases_balance():
 
 def test_overdrawing_not_allowed():
     # Arrange (Given)
-    bank_account = BankAccount(1000)
+    fake_email_sender = FakeEmailSender()
+    bank_account = BankAccount(1000, fake_email_sender)
 
     # Act (When) & Assert (Then)
     with pytest.raises(InsufficientBalanceException):
@@ -46,8 +48,9 @@ def test_transfer_value_to_other_account():
 
 def test_transfer_amount_higher_than_balance():
     # Arrange (Given)
-    bank_account_sender = BankAccount(1000)
-    bank_account_receiver = BankAccount(0)
+    fake_email_sender = FakeEmailSender()
+    bank_account_sender = BankAccount(1000, fake_email_sender)
+    bank_account_receiver = BankAccount(0, fake_email_sender)
 
     # Act (When) & Assert (Then)
     with pytest.raises(InsufficientBalanceException):
@@ -60,8 +63,9 @@ def test_transfer_amount_higher_than_balance():
 def test_transfer_fee_is_charged():
     # Arrange (Given)
     transfer_fee = 10
-    bank_account_sender = BankAccount(1000, transfer_fee)
-    bank_account_receiver = BankAccount(0)
+    fake_email_sender = FakeEmailSender()
+    bank_account_sender = BankAccount(1000, fake_email_sender, transfer_fee)
+    bank_account_receiver = BankAccount(0, fake_email_sender, transfer_fee)
 
     # Act (When)
     bank_account_sender.transfer(500, bank_account_receiver)

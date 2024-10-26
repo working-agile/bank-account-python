@@ -14,6 +14,8 @@ Bank Account exercise
 * 3-bank-account-tdd: additional functionalities developed with TDD
 * 4-bank-account-manual-mock: showcases how to implement a mock for dependencies
 * 5-bank-account-manual-mock-dependency-injection: showcases dependency injection
+    * Skipping this exercise in Python as it doesn't have interfaces for dependency injection like Java.  
+    * However, the example remains the same as **4-bank-account-manual-mock** since Python supports duck typing, allowing similar behave.
 * 6-bank-account-mock-framework: showcases use of Mock as a mocking framework
 * 7-bank-account-transaction-history: creation of new dependency
 * 8-bank-account-transaction-history-stub: showcase use of a stub

@@ -23,5 +23,26 @@ class BankAccount:
         self.withdraw(amount + self.transfer_fee)
         receiver_account.deposit(amount)
 
+    def get_bank_statement(self):
+        transaction_list = self.transaction_history.get_transaction_history() if self.transaction_history else []
+        statement = f"balance:{self.balance},transactionHistory:"
+
+        if not transaction_list:
+            statement += "empty"
+        else:
+            statement += "["
+            num_transactions = len(transaction_list)
+            for i in range(num_transactions):
+                amount = transaction_list[i]
+                if amount >= 0:
+                    statement += f"deposit:{amount}"
+                else:
+                    statement += f"withdrawal:{-amount}"
+                if i < num_transactions - 1:
+                    statement += ","
+            statement += "]"
+        
+        return statement
+
 class InsufficientBalanceException(Exception):
     pass

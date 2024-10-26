@@ -4,7 +4,9 @@ from bank_account import BankAccount, InsufficientBalanceException
 
 def test_deposit_increases_balance():
     # Arrange (Given)
-    bank_account = BankAccount(1000)
+    email_sender_mock = Mock()
+    transaction_history_mock = Mock()
+    bank_account = BankAccount(1000, email_sender_mock, transaction_history_mock)
 
     # Act (When)
     bank_account.deposit(200)
@@ -14,7 +16,9 @@ def test_deposit_increases_balance():
 
 def test_withdraw_decreases_balance():
     # Arrange (Given)
-    bank_account = BankAccount(1000)
+    email_sender_mock = Mock()
+    transaction_history_mock = Mock()
+    bank_account = BankAccount(1000, email_sender_mock, transaction_history_mock)
 
     # Act (When)
     bank_account.withdraw(200)
@@ -24,8 +28,9 @@ def test_withdraw_decreases_balance():
 
 def test_overdrawing_not_allowed():
     # Arrange (Given)
-    fake_email_sender = Mock()
-    bank_account = BankAccount(1000, fake_email_sender)
+    email_sender_mock = Mock()
+    transaction_history_mock = Mock()
+    bank_account = BankAccount(1000, email_sender_mock, transaction_history_mock)
 
     # Act (When) & Assert (Then)
     with pytest.raises(InsufficientBalanceException):
@@ -36,8 +41,10 @@ def test_overdrawing_not_allowed():
 
 def test_transfer_value_to_other_account():
     # Arrange (Given)
-    bank_account_sender = BankAccount(1000)
-    bank_account_receiver = BankAccount(0)
+    email_sender_mock = Mock()
+    transaction_history_mock = Mock()
+    bank_account_sender = BankAccount(1000, email_sender_mock, transaction_history_mock)
+    bank_account_receiver = BankAccount(0, email_sender_mock, transaction_history_mock)
 
     # Act (When)
     bank_account_sender.transfer(500, bank_account_receiver)
@@ -48,9 +55,10 @@ def test_transfer_value_to_other_account():
 
 def test_transfer_amount_higher_than_balance():
     # Arrange (Given)
-    fake_email_sender = Mock()
-    bank_account_sender = BankAccount(1000, fake_email_sender)
-    bank_account_receiver = BankAccount(0, fake_email_sender)
+    email_sender_mock = Mock()
+    transaction_history_mock = Mock()
+    bank_account_sender = BankAccount(1000, email_sender_mock, transaction_history_mock)
+    bank_account_receiver = BankAccount(0, email_sender_mock, transaction_history_mock)
 
     # Act (When) & Assert (Then)
     with pytest.raises(InsufficientBalanceException):
@@ -63,9 +71,10 @@ def test_transfer_amount_higher_than_balance():
 def test_transfer_fee_is_charged():
     # Arrange (Given)
     transfer_fee = 10
-    fake_email_sender = Mock()
-    bank_account_sender = BankAccount(1000, fake_email_sender, transfer_fee)
-    bank_account_receiver = BankAccount(0, fake_email_sender, transfer_fee)
+    email_sender_mock = Mock()
+    transaction_history_mock = Mock()
+    bank_account_sender = BankAccount(1000, email_sender_mock, transaction_history_mock, transfer_fee)
+    bank_account_receiver = BankAccount(0, email_sender_mock, transaction_history_mock, transfer_fee)
 
     # Act (When)
     bank_account_sender.transfer(500, bank_account_receiver)
